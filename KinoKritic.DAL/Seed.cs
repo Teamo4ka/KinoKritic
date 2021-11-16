@@ -132,7 +132,7 @@ namespace KinoKritic.DAL
                 }
             };
             await context.Media.AddRangeAsync(medias);
-
+            
             await context.SaveChangesAsync();
         }
     }
