@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KinoKritic.DAL", "KinoKritic.DAL\KinoKritic.DAL.csproj", "{3D0D1CB4-8C27-4075-A17B-FFE9BEFBCF93}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KinoKritic.WEB", "KinoKritic.WEB\KinoKritic.WEB.csproj", "{4D92C62C-BD24-4614-9FF7-07BCC7EAAC03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KinoKritic.BLL", "KinoKritic.BLL\KinoKritic.BLL.csproj", "{8C29692B-8AEC-4776-93B2-71445B7B0B0A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3D0D1CB4-8C27-4075-A17B-FFE9BEFBCF93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D0D1CB4-8C27-4075-A17B-FFE9BEFBCF93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D0D1CB4-8C27-4075-A17B-FFE9BEFBCF93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D0D1CB4-8C27-4075-A17B-FFE9BEFBCF93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D92C62C-BD24-4614-9FF7-07BCC7EAAC03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D92C62C-BD24-4614-9FF7-07BCC7EAAC03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D92C62C-BD24-4614-9FF7-07BCC7EAAC03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D92C62C-BD24-4614-9FF7-07BCC7EAAC03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C29692B-8AEC-4776-93B2-71445B7B0B0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C29692B-8AEC-4776-93B2-71445B7B0B0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C29692B-8AEC-4776-93B2-71445B7B0B0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C29692B-8AEC-4776-93B2-71445B7B0B0A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
