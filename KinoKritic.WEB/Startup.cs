@@ -30,16 +30,14 @@ namespace KinoKritic.WEB
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddDbContext<DataContext>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "KinoKritic.WEB", Version = "v1"});
             });
+            services.AddDataLayerServices(Configuration);
             services.AddIdentityServices(Configuration);
-       
+            services.AddApplicationServices(Configuration);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
