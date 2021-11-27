@@ -29,11 +29,8 @@ namespace KinoKritic.WEB
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "KinoKritic.WEB", Version = "v1"});
-            });
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();;
+           
             services.AddDataLayerServices(Configuration);
             services.AddIdentityServices(Configuration);
             services.AddApplicationServices(Configuration);
@@ -46,19 +43,23 @@ namespace KinoKritic.WEB
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "KinoKritic.WEB v1"));
             }
 
 
-
+            app.UseStaticFiles();
             app.UseRouting();
             
             app.UseAuthentication();
             app.UseAuthorization();
             
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    "default",
+                    "{controller=Home}/{action=Index}");
+                endpoints.MapControllers();
+            });
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using KinoKritic.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -11,6 +12,9 @@ namespace KinoKritic.DAL
         public static async Task SeedData(DataContext context,
             UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
+            if (context.Users.Any())
+                return;
+
             string[] roleNames = { "Admin",  "Member" };
             foreach (var roleName in roleNames)
             {

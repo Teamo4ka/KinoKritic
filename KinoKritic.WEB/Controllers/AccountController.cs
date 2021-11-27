@@ -1,118 +1,94 @@
-﻿using System;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using KinoKritic.BLL.Interfaces;
+﻿using System.Threading.Tasks;
 using KinoKritic.DAL.Entities;
-using KinoKritic.WEB.DTOs;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+using KinoKritic.WEB.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace KinoKritic.WEB.Controllers
 {
-   [ApiController]
-    [Route("api/[controller]")]
-    public class AccountController : ControllerBase
+    public class AccountController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
-        private readonly ITokenService _tokenService;
-        
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService)
+
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _tokenService = tokenService;
         }
-        
-        [Authorize]
+
+        // GET
         [HttpGet]
-        public async Task<IActionResult> Current()
+        public IActionResult LogIn( string returnUrl = null)
         {
-            var user = await _userManager.Users.FirstOrDefaultAsync(x => 
-                x.Email == HttpContext.User.FindFirstValue(ClaimTypes.Email));
-
-            if (user == null) return Unauthorized();
-            var roles = await _userManager.GetRolesAsync(user);
-
-            var isAdmin = roles.Contains("Admin");
-            return Ok(await CreateUserObject(user, isAdmin));
-           
-        }
-        [AllowAnonymous]
-        [HttpPost("login")]
-        public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
-        {
-            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Email == loginDto.Email);
-
-            if (user == null) return Unauthorized();
-
-            var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
-
-            var roles = await _userManager.GetRolesAsync(user);
-
-            var isAdmin = roles.Contains("Admin");
-            if (result.Succeeded)
-            {
-                return await CreateUserObject(user, isAdmin);
-            }
-
-            return Unauthorized();
+            return View(new LogInVM() { ReturnUrl = returnUrl });
         }
 
-        private async Task<UserDto> CreateUserObject(AppUser user, bool isAdmin)
+        // GET
+        [HttpGet]
+        public IActionResult Register()
         {
-            return new UserDto
-            {
-                DisplayName = user.DisplayName,
-                Token = await _tokenService.CreateToken(user),
-                isAdmin = isAdmin,
-                Username = user.UserName,
-            };
+            return View(new RegisterVM { ReturnUrl ="/Home/Index"});
         }
 
-        [AllowAnonymous]
-        [HttpPost("register")]
-        public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
+        // POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterVM registerVM)
         {
-            var user = await _userManager.FindByEmailAsync(registerDto.Email);
-
-            if (user != null)
+            if (ModelState.IsValid)
             {
-                ModelState.AddModelError("email", "Email taken");
-                return ValidationProblem(ModelState);
+                AppUser user = new AppUser { Email = registerVM.Email, UserName = registerVM.Email };
+
+                if(string.Compare(registerVM.Password, registerVM.ConfirmPassword) != 0)
+                {
+                    ModelState.AddModelError("", "Passwords aren't coincided");
+                    return View(registerVM);
+                }
+
+                var result = await _userManager.CreateAsync(user, registerVM.Password);
+
+                if (result.Succeeded)
+                {
+                    await _signInManager.SignInAsync(user, false);
+                    RedirectToAction("Index", "Home");
+                }
             }
-
-            user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == registerDto.Username);
-
-            if (user != null)
-            {
-                ModelState.AddModelError("username", "Username taken");
-                return ValidationProblem(ModelState);
-            }
-
-            user = new AppUser
-            {
-                DisplayName = registerDto.DisplayName,
-                Email = registerDto.Email,
-                UserName = registerDto.Username,
-            };
-
-
-            var result = await _userManager.CreateAsync(user, registerDto.Password);
-
-            
-            if (result.Succeeded)
-            {
-                return await CreateUserObject(user, false);
-            }
-
-            return Unauthorized();
+            return View(registerVM);
         }
-       
-        
-        
+
+        // POST
+        [HttpPost, ActionName("LogIn")]
+        [ValidateAntiForgeryToken]
+
+        public async Task<IActionResult> LogIn(LogInVM loginVM)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _signInManager
+                    .PasswordSignInAsync(loginVM.Email, loginVM.Password,
+                    loginVM.RememberMe, false);
+                if (result.Succeeded)
+                {
+                    if (!string.IsNullOrEmpty(loginVM.ReturnUrl) && Url.IsLocalUrl(loginVM.ReturnUrl))
+                        return Redirect(loginVM.ReturnUrl);
+                    return RedirectToAction("Index", "Home");
+                }
+                ModelState.AddModelError("", "Something wrong with login or password");
+            }
+
+            return View(loginVM);
+
+        }
+
+
+        // POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
