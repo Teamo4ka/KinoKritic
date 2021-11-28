@@ -82,7 +82,7 @@ namespace KinoKritic.WEB.Controllers
             if (ModelState.IsValid)
             {
                 var result = await _signInManager
-                    .PasswordSignInAsync(loginVM.Email, loginVM.Password,
+                    .PasswordSignInAsync(loginVM.UserName, loginVM.Password,
                     loginVM.RememberMe, false);
                 if (result.Succeeded)
                 {

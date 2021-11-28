@@ -61,9 +61,19 @@
             </div>
         </div>
     </div>
-    <div class="row justify-content-center mt-3">
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/Y3lSbYWUdpQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </div>
+    @if (Model.Trailer != null)
+    {
+        <div class="row justify-content-center mt-3">
+            <iframe width="560" height="315" src="@Model.Trailer" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    }
+    else
+    {
+        <div class="row justify-content-center mt-3">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/Y3lSbYWUdpQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    }
+    
     
     <form action="/reviews/add" method="post">
         <input value="@Model.MediaId" name="mediaId" hidden/>

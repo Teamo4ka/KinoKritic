@@ -4,10 +4,10 @@ namespace KinoKritic.WEB.Model
 {
     public class LogInVM
     {
+        
         [Required]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
-
+        [Display(Name = "UserName")]
+        public string UserName{ get; set; }
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
