@@ -51,7 +51,6 @@ namespace KinoKritic.WEB.Controllers
 
         // POST
         [HttpPost("register")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterVM registerVM)
         {
             if (ModelState.IsValid)
@@ -77,8 +76,7 @@ namespace KinoKritic.WEB.Controllers
 
         // POST
         [HttpPost("login")]
-        [ValidateAntiForgeryToken]
-
+ 
         public async Task<IActionResult> LogIn(LogInVM loginVM)
         {
             if (ModelState.IsValid)
@@ -121,7 +119,7 @@ namespace KinoKritic.WEB.Controllers
             await blobClient.UploadAsync(file.OpenReadStream());
 
            await _profileService.SetPhoto(_userAccessor.GetUserId(), blobUri.ToString());
-           return Redirect("account/changePhoto");
+           return Redirect("/account/changePhoto");
 
         }
 
