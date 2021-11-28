@@ -7,7 +7,7 @@ namespace KinoKritic.WEB.Controllers
         // GET
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("GetAll", "Media");
         }
     }
 }

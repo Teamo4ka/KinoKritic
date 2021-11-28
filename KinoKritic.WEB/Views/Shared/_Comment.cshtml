@@ -1,0 +1,31 @@
+﻿@model CommentDto
+
+<div class="row mt-2">
+<div class="col-2">
+    
+    <div>
+        @if (Model.Image != null)
+        {
+            <img src="@Model.Image" width="100">
+            
+        }
+        else
+        {
+            <img src="https://i.imgur.com/tPvlEdq.jpg" width="100">
+        }
+        @if (Model.Username != null)
+        {
+            <span class="text2">@Model.Username</span>
+        }
+        else
+        {
+            <span class="text2">Name</span>
+        }
+        </div >
+        
+    </div>
+
+    <div class="col-6">
+        <p>@Model.Body</p>
+    </div>
+</div>

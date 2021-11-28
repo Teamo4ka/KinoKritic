@@ -1,0 +1,84 @@
+﻿@using KinoKritic.DAL.Entities
+@using Microsoft.AspNetCore.Identity
+@using KinoKritic.BLL.Interfaces
+@model ReviewDto
+@inject SignInManager<AppUser> _manager
+@inject IUserAccessor _userAccessor
+<div class="row">
+    <div class="col-12">
+        <h5>Title</h5>
+        <h3>@Model.Title</h3>
+    </div>
+    <div class="col-12">
+        <h5>Text</h5>
+        <p>@Model.Text</p>
+    </div>
+    <div class="col-12">
+        <h5>Rate</h5>
+        <p>@Model.Rate</p>
+    </div>
+    
+    <div class="col-12">
+        Likes: @Model.Rates.Count(rate => rate.isLiked)
+    </div>
+    @if (@Model.Rates.FirstOrDefault(rate => rate.UserId == _userAccessor.GetUserId()) != null && @Model.Rates.FirstOrDefault(rate => rate.UserId == _userAccessor.GetUserId()).isLiked )
+    {
+        <div class="col-12">
+            <form action="/reviews/@Model.Id/like" method="post">
+                <button type="submit" class="btn btn-outline-info"><i class="far fa-thumbs-down"></i></button>
+            </form>
+            
+        </div>
+    }
+    else if(_manager.IsSignedIn(User))
+    {
+        <div class="col-12">
+             <form action="/reviews/@Model.Id/like" method="post">
+                 <button type="submit" class="btn btn-outline-danger"><i class="fas fa-heart"></i></button>
+             </form>
+        </div>
+    }
+    
+    <h4>Leave comment</h4>
+    
+</div>
+<div class="row">
+      @if (_manager.IsSignedIn(User))
+      {
+          <form action="/comments/add" method="post">
+              <input value="@Model.Id" name="reviewId" hidden/>
+              <input value="@Model.MediaId" name="mediaId" hidden/>
+              <div class="form-group ">
+                  <div class="row align-items-end">
+                      <div class="col-10">
+                          <label>Body</label>
+                          <input type="body" class="form-control" name="body"/>
+                      </div>
+                  </div>
+              </div>
+              <input type="submit" value="Submit"/>
+          </form>
+      }
+</div>
+<div class="row mt-2">
+    <div id="accordion" class="w-75">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                        Comments
+                    </button>
+                </h5>
+            </div>
+    
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body w-100 ">
+                    @foreach (var comment in Model.Comments)
+                    {
+                        <partial name="_Comment" model="comment"/>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

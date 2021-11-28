@@ -9,6 +9,7 @@ namespace KinoKritic.BLL.Dtos
         public string Text { get; set; }
         public string Title { get; set; }
         public double Rate { get; set; }
+        public Guid MediaId { get; set; }
 
         public ICollection<ReviewRateDto> Rates { get; set; }
         public ICollection<CommentDto> Comments { get; set; }

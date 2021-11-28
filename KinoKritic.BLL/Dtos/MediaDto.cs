@@ -21,8 +21,9 @@ namespace KinoKritic.BLL.Dtos
         public string Trailer { get; set; }
         public double Rated { get; set; }
         public DateTime CreatedAt { get; set; }
-        public MediaType Type { get; set; }
-        public ICollection<MediaPhotoDto> Photos { get; set; }
+        public MediaTypeDto Type { get; set; }
+        public string PhotoUrl{ get; set; }
+        public ICollection<MediaPhotoDto> Photos { get; set; } = new List<MediaPhotoDto>();
         public ICollection<ReviewDto> Reviews { get; set; }
         public ICollection<GenreDto> Genres { get; set; }
     }

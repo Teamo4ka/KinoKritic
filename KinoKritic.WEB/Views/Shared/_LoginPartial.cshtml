@@ -8,7 +8,9 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
-        <p class="nav-link btn btn-link text-light">Hello @UserManager.GetUserName(User)!</p>
+        <a href="/account/changePhoto">
+            <p class="nav-link btn btn-link text-light">Hello @UserManager.GetUserName(User)!</p>
+        </a>
     </li>
     <li class="nav-item">
         <form id="logoutForm" class="form-inline" method="post" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">

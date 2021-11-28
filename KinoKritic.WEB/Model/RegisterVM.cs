@@ -12,6 +12,7 @@ namespace KinoKritic.WEB.Model
         [Display(Name = "Password")]
         public string Password { get; set; }
 
+        public string UserName { get; set; }
         [Required]
         [Display(Name = "Confirm password")]
         public string ConfirmPassword { get; set; }

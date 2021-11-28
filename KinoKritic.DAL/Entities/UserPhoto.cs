@@ -6,6 +6,7 @@ namespace KinoKritic.DAL.Entities
     {
         public Guid Id { get; set; }
         public string Url { get; set; }
+        public bool  IsMain { get; set; }
         public string UserId { get; set; }
 
         public AppUser User { get; set; }

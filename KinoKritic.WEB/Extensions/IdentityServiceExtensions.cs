@@ -16,15 +16,11 @@ namespace KinoKritic.WEB.Extensions
         public static IServiceCollection AddIdentityServices(this IServiceCollection services,
             IConfiguration config)
         {
-            services.AddIdentityCore<AppUser>(opt =>
-                {
-                    opt.Password.RequireNonAlphanumeric = false;
-                    opt.Password.RequireDigit = false;
-                })
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<DataContext>()
-                .AddSignInManager<SignInManager<AppUser>>();
-            
+            services.AddIdentity<AppUser, IdentityRole>()
+                .AddDefaultTokenProviders()
+                .AddEntityFrameworkStores<DataContext>();
+
+            /*
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(opt =>
@@ -56,7 +52,7 @@ namespace KinoKritic.WEB.Extensions
                     };
 
                 });
-
+            */
             return services;
         }
     }

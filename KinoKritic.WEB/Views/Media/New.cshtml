@@ -1,0 +1,56 @@
+﻿@using System.Linq
+@model MediaDto
+
+<form action="/media/create" method="post">
+    <div class="col-5 offset-1">
+        <div class="row">
+            <div class="col-12"><h5>Name</h5></div>
+            <div class="col-12"><input asp-for="Name"/></div>
+        </div>
+        <div class="row">
+            <div class="col-12"><h5>Annotation</h5></div>
+            <div class="col-12"><input asp-for="Annotation"/></div>
+        </div>
+        <div class="row">
+            <div class="col-12"><h5>Year</h5></div>
+            <div class="col-12"><input asp-for="Year"/></div>
+        </div>
+        <div class="row">
+            <div class="col-12"><h5>Country</h5></div>
+            <div class="col-12"><p><input asp-for="Country"/></p></div>
+        </div>
+        <div class="row">
+            <div class="col-12"><h5>Director</h5></div>
+            <div class="col-12"><p><input asp-for="Director"/></p></div>
+        </div>
+        <div class="row">
+            <div class="col-12"><h5>Scenario</h5></div>
+            <div class="col-12"><input asp-for="Scenario"/></div>
+        </div>
+        <div class="row">
+            <div class="col-12"><h5>Composer</h5></div>
+            <div class="col-12"><input asp-for="Composer"/></div>
+        </div>
+        <div class="row">
+            <div class="col-12"><h5>Operator</h5></div>
+            <div class="col-12"><input asp-for="Operator"/></div>
+        </div>
+        <div class="row">
+            <div class="col-12"><h5>Budget</h5></div>
+            <div class="col-12"><input asp-for="Budget"/></div>
+        </div>
+        <div class="row">
+            <div class="col-12"><h5>Aged</h5></div>
+            <div class="col-12"><input asp-for="Aged"/></div>
+        </div>
+        <div class="row">
+            <div class="col-12"><h5>Rated</h5></div>
+            <div class="col-12"><input asp-for="Rated"/></div>
+        </div>
+        <div class="row">
+            <div class="col-12"><h5>Photo</h5></div>
+            <div class="col-12"><input asp-for="PhotoUrl" required/></div>
+            </div>
+    </div>
+    <input type="submit" value="Submit" class="btn btn-success"/>
+</form>

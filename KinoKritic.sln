@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KinoKritic.WEB", "KinoKriti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KinoKritic.BLL", "KinoKritic.BLL\KinoKritic.BLL.csproj", "{8C29692B-8AEC-4776-93B2-71445B7B0B0A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KinoKritic.WEB.Tests", "KinoKritic.WEB.Tests\KinoKritic.WEB.Tests.csproj", "{8BD8D1FE-159F-4132-A32A-031686203C52}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{8C29692B-8AEC-4776-93B2-71445B7B0B0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C29692B-8AEC-4776-93B2-71445B7B0B0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C29692B-8AEC-4776-93B2-71445B7B0B0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BD8D1FE-159F-4132-A32A-031686203C52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BD8D1FE-159F-4132-A32A-031686203C52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BD8D1FE-159F-4132-A32A-031686203C52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BD8D1FE-159F-4132-A32A-031686203C52}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

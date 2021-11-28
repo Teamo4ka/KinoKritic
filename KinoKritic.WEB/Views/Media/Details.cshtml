@@ -1,0 +1,108 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using KinoKritic.DAL.Entities
+@model MediaDto
+@inject SignInManager<AppUser> _manager
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            @if (Model.Photos != null && Model.Photos.Count > 0)
+            {
+                <img class="card-img-top" src="@Model.Photos.FirstOrDefault(x => x.IsMain)?.Url" alt="Card image cap">
+            }
+            else
+            {
+                <img class="card-img-top" src="/Images/Johnny_English.jpg" alt="Card image cap">
+            }
+        </div>
+        <div class="col-5 offset-1">
+            <div class="row">
+                <div class="col-12"><h5>Name</h5></div>
+                <div class="col-12"><p>@Model.Name</p></div>
+            </div>
+            <div class="row">
+                <div class="col-12"><h5>Annotation</h5></div>
+                <div class="col-12"><p>@Model.Annotation</p></div>
+            </div>
+            <div class="row">
+                <div class="col-12"><h5>Year</h5></div>
+                <div class="col-12"><p>@Model.Year</p></div>
+            </div>
+            <div class="row">
+                <div class="col-12"><h5>Country</h5></div>
+                <div class="col-12"><p>@Model.Country</p></div>
+            </div>
+            <div class="row">
+                <div class="col-12"><h5>Director</h5></div>
+                <div class="col-12"><p>@Model.Director</p></div>
+            </div>
+            <div class="row">
+                <div class="col-12"><h5>Scenario</h5></div>
+                <div class="col-12"><p>@Model.Scenario</p></div>
+            </div>
+            <div class="row">
+                <div class="col-12"><h5>Composer</h5></div>
+                <div class="col-12"><p>@Model.Composer</p></div>
+            </div>
+            <div class="row">
+                <div class="col-12"><h5>Operator</h5></div>
+                <div class="col-12"><p>@Model.Operator</p></div>
+            </div>
+            <div class="row">
+                <div class="col-12"><h5>Budget</h5></div>
+                <div class="col-12"><p>@Model.Budget</p></div>
+            </div>
+            <div class="row">
+                <div class="col-12"><h5>Aged</h5></div>
+                <div class="col-12"><p>@Model.Aged</p></div>
+            </div>
+            <div class="row">
+                <div class="col-12"><h5>Rated</h5></div>
+                <div class="col-12"><p>@Model.Rated</p></div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-3">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/Y3lSbYWUdpQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    
+    <form action="/reviews/add" method="post">
+        <input value="@Model.MediaId" name="mediaId" hidden/>
+        <div class="form-group ">
+            <div class="row align-items-end">
+                <div class="col-10">
+                    <label>Title</label>
+                    <input class="form-control" name="title">
+                </div>
+            </div>
+        </div>
+        <div class="form-group ">
+            <div class="row align-items-end">
+                <div class="col-10">
+                    <label>Text</label>
+                <textarea class="form-control" name="text"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="form-group ">
+            <div class="row align-items-end">
+                <div class="col-10">
+                    <label>Rate</label>
+                    <input type="number" class="form-control" name="rate" min="0" max="10"/>
+                </div>
+            </div>
+        </div>
+        <input type="submit" value="Submit"/>
+    </form>
+    
+    <div class="container mt-4">
+        <div class="row">
+        @foreach (var review in Model.Reviews)
+        {
+            <div class="col-12">
+                <partial name="_Review" model="review"/>
+            </div>
+        }
+        </div>
+    </div>
+</div>
+

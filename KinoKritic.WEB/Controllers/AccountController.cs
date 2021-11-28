@@ -1,44 +1,62 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using Azure.Storage;
+using Azure.Storage.Blobs;
+using KinoKritic.BLL.Interfaces;
 using KinoKritic.DAL.Entities;
 using KinoKritic.WEB.Model;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace KinoKritic.WEB.Controllers
 {
+    [Route("[controller]")]
     public class AccountController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly IProfileService _profileService;
+        private readonly IUserAccessor _userAccessor;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IProfileService profileService, IUserAccessor userAccessor)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _profileService = profileService;
+            _userAccessor = userAccessor;
         }
 
+        [HttpGet("changePhoto")]
+        public async Task<ViewResult> ChangePhoto()
+        {
+            var profile = await _profileService.GetProfile(_userAccessor.GetUserId());
+            return View(profile);
+        }
+        
         // GET
-        [HttpGet]
+        [HttpGet("login")]
         public IActionResult LogIn( string returnUrl = null)
         {
             return View(new LogInVM() { ReturnUrl = returnUrl });
         }
 
         // GET
-        [HttpGet]
+        [HttpGet("register")]
         public IActionResult Register()
         {
             return View(new RegisterVM { ReturnUrl ="/Home/Index"});
         }
 
         // POST
-        [HttpPost]
+        [HttpPost("register")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterVM registerVM)
         {
             if (ModelState.IsValid)
             {
-                AppUser user = new AppUser { Email = registerVM.Email, UserName = registerVM.Email };
+                AppUser user = new AppUser { Email = registerVM.Email, UserName = registerVM.UserName };
 
                 if(string.Compare(registerVM.Password, registerVM.ConfirmPassword) != 0)
                 {
@@ -58,7 +76,7 @@ namespace KinoKritic.WEB.Controllers
         }
 
         // POST
-        [HttpPost, ActionName("LogIn")]
+        [HttpPost("login")]
         [ValidateAntiForgeryToken]
 
         public async Task<IActionResult> LogIn(LogInVM loginVM)
@@ -78,6 +96,32 @@ namespace KinoKritic.WEB.Controllers
             }
 
             return View(loginVM);
+
+        }
+
+        [HttpPost("change")]
+        public async Task<IActionResult> ChangePhoto([FromForm] IFormFile file)
+        {
+            var userId = _userAccessor.GetUserId();
+            Uri blobUri = new Uri("https://" +
+                                  "rhzstorage" +
+                                  ".blob.core.windows.net/" +
+                                  "rhzimagestorage" +
+                                  "/" + Guid.NewGuid().ToString() + "." + file.FileName.Split('.')[1]);
+
+            // Create StorageSharedKeyCredentials object by reading
+            // the values from the configuration (appsettings.json)
+            StorageSharedKeyCredential storageCredentials =
+                new StorageSharedKeyCredential("rhzstorage" ,"JCUdy8ItMUdCbh90n69k2sTRfQgcupQ4ZkkfuiUD1LuzQUbQhRoXILZoopkaOT+4h0eQmNeeiU8JykSJP/K/Ww==");
+
+            // Create the blob client.
+            BlobClient blobClient = new BlobClient(blobUri, storageCredentials);
+
+            // Upload the file
+            await blobClient.UploadAsync(file.OpenReadStream());
+
+           await _profileService.SetPhoto(_userAccessor.GetUserId(), blobUri.ToString());
+           return Redirect("account/changePhoto");
 
         }
 

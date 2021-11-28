@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using KinoKritic.DAL;
+using KinoKritic.DAL.Entities;
 using KinoKritic.WEB.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -33,6 +35,7 @@ namespace KinoKritic.WEB
            
             services.AddDataLayerServices(Configuration);
             services.AddIdentityServices(Configuration);
+            services.AddSession();
             services.AddApplicationServices(Configuration);
 
         }
@@ -51,13 +54,14 @@ namespace KinoKritic.WEB
             
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseSession();
             
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     "default",
-                    "{controller=Home}/{action=Index}");
+                    "{controller=Media}/{action=all}");
                 endpoints.MapControllers();
             });
         }

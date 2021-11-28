@@ -1,0 +1,28 @@
+﻿@model IEnumerable<KinoKritic.BLL.Dtos.MediaDto>
+
+<div class="container">
+    <div class="row">
+    @foreach (var media in Model)
+    {
+        <div class="col-4">
+            <div class="card" style="width: 18rem;">
+                @if (media.Photos != null && media.Photos.Count > 0)
+                {
+                    <img class="card-img-top" src="@media.Photos.FirstOrDefault(x => x.IsMain)?.Url" alt="Card image cap">
+                }
+                else
+                {
+                    <img class="card-img-top" src="/Images/Johnny_English.jpg" alt="Card image cap">
+                }
+                
+                <div class="card-body">
+                    <h5 class="card-title">@media.Name</h5>
+                    <p class="card-text">@media.Annotation</p>
+                    <a href="/media/@media.MediaId" class="btn btn-primary">Details</a>
+                </div>
+            </div>   
+        </div>
+        
+    }
+    </div>
+</div>
